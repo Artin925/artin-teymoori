@@ -1,6 +1,5 @@
-import { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [],
     dangerouslyAllowSVG: true,
@@ -40,4 +39,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = nextConfig 
