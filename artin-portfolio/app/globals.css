@@ -1,0 +1,770 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* 3D Transform Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Preloader Styles */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Stars Background */
+.stars-1, .stars-2, .stars-3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.stars-1::after, .stars-2::after, .stars-3::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,0.2) 2px, transparent 2px),
+    radial-gradient(white, rgba(255,255,255,0.15) 1px, transparent 1px),
+    radial-gradient(white, rgba(255,255,255,0.1) 2px, transparent 2px);
+  background-position: 0 0, 50px 50px, 100px 150px;
+  background-size: 150px 150px, 100px 100px, 200px 200px;
+  opacity: 0.3;
+}
+
+.stars-1 {
+  animation: stars-move-1 100s linear infinite;
+}
+
+.stars-2 {
+  animation: stars-move-2 150s linear infinite;
+}
+
+.stars-3 {
+  animation: stars-move-3 200s linear infinite;
+}
+
+@keyframes stars-move-1 {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-2000px); }
+}
+
+@keyframes stars-move-2 {
+  0% { transform: translateY(0) translateX(100px); }
+  100% { transform: translateY(-2000px) translateX(100px); }
+}
+
+@keyframes stars-move-3 {
+  0% { transform: translateY(0) translateX(-100px); }
+  100% { transform: translateY(-2000px) translateX(-100px); }
+}
+
+/* Scroll Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-delay-1 { transition-delay: 0.1s; }
+.stagger-delay-2 { transition-delay: 0.2s; }
+.stagger-delay-3 { transition-delay: 0.3s; }
+.stagger-delay-4 { transition-delay: 0.4s; }
+.stagger-delay-5 { transition-delay: 0.5s; }
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* Framer Motion Cursor Styles */
+html.framer-cursor,
+html.framer-cursor * {
+  cursor: none !important;
+}
+
+/* Der äußere Ring des Cursors */
+.framer-cursor-ring {
+  pointer-events: none;
+  position: fixed;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  mix-blend-mode: difference;
+  backdrop-filter: blur(1px);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  will-change: transform, width, height;
+}
+
+/* Der innere Punkt des Cursors */
+.framer-cursor-dot {
+  pointer-events: none;
+  position: fixed;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  will-change: transform, width, height, background-color;
+}
+
+/* Anpassung für hellen Modus */
+@media (prefers-color-scheme: light) {
+  .framer-cursor-ring {
+    border-color: rgba(0, 0, 0, 0.5);
+    mix-blend-mode: multiply;
+  }
+  
+  .framer-cursor-dot {
+    background-color: black;
+  }
+}
+
+/* Minimaler, moderner Cursor */
+html.hide-cursor,
+html.hide-cursor * {
+  cursor: none !important;
+}
+
+/* Äußerer Ring - minimalistisch und leicht */
+.minimal-cursor {
+  pointer-events: none;
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  transition: width 0.2s, height 0.2s, border 0.2s;
+  z-index: 10000;
+  backdrop-filter: blur(1px);
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+/* Innerer Punkt - ultrasimple für bestmögliche Performance */
+.minimal-cursor-dot {
+  pointer-events: none;
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  background-color: white;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 10001;
+  will-change: transform;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Hover-Zustand - sanfte Transformation */
+.minimal-cursor.is-hovering {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(120, 220, 255, 0.8);
+}
+
+.minimal-cursor-dot.is-hovering {
+  width: 8px;
+  height: 8px;
+  background-color: #78dcff;
+}
+
+/* Aktiver Zustand - dezente Änderung */
+.minimal-cursor.is-clicking {
+  width: 30px;
+  height: 30px;
+  border-color: rgba(255, 100, 255, 0.9);
+}
+
+.minimal-cursor-dot.is-clicking {
+  width: 10px;
+  height: 10px;
+  background-color: #ff64ff;
+}
+
+/* Anpassung für dunklen Modus */
+@media (prefers-color-scheme: dark) {
+  .minimal-cursor {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .minimal-cursor-dot {
+    background-color: white;
+  }
+}
+
+/* Anpassung für hellen Modus */
+@media (prefers-color-scheme: light) {
+  .minimal-cursor {
+    border-color: rgba(0, 0, 0, 0.5);
+    mix-blend-mode: multiply;
+  }
+  
+  .minimal-cursor-dot {
+    background-color: black;
+  }
+}
+
+/* Kreativer Custom Cursor */
+html.cursor-hidden,
+html.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* Hauptcursor - Geometrisches Design */
+.creative-cursor {
+  --rotation: 0deg;
+  pointer-events: none;
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 0; /* Eckige Form für geometrisches Design */
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  transform: translate3d(-50%, -50%, 0) rotate(var(--rotation));
+  z-index: 10000;
+  opacity: 0.9;
+  mix-blend-mode: exclusion;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Rautenform */
+  will-change: transform, clip-path;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+  transition: 
+    clip-path 0.3s ease, 
+    opacity 0.3s ease, 
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Trail-Elemente für Folge-Effekt */
+.creative-cursor-trail {
+  pointer-events: none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 9999;
+  opacity: 0.5;
+  background: linear-gradient(135deg, #4f46e5, #ec4899);
+  border-radius: 0;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Rautenform */
+  mix-blend-mode: lighten;
+  will-change: transform, opacity;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Individuelle Trail-Elemente für Vielfalt */
+.trail-0 {
+  background: linear-gradient(135deg, #4f46e5, #ec4899);
+}
+.trail-1 {
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); /* Fünfeck */
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+.trail-2 {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); /* Achteck */
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+}
+.trail-3 {
+  clip-path: circle(50% at 50% 50%); /* Kreis */
+  background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+}
+.trail-4 {
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%); /* Weicheres Achteck */
+  background: linear-gradient(135deg, #1e40af, #5b21b6);
+}
+
+/* Hover-Zustand */
+.creative-cursor.cursor-hover {
+  clip-path: circle(50% at 50% 50%); /* Wird zum Kreis bei Hover */
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+  opacity: 1;
+}
+
+/* Aktiver Zustand (bei Mausklick) */
+.creative-cursor.cursor-active {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); /* Stern-Form beim Klick */
+  background: linear-gradient(135deg, #f97316, #e11d48);
+  transform: translate3d(-50%, -50%, 0) rotate(var(--rotation)) scale(1.2);
+  box-shadow: 0 0 25px rgba(249, 115, 22, 0.8);
+}
+
+/* Fun Elements */
+.shake-on-hover:hover {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.bounce-on-hover:hover {
+  animation: bounce 0.5s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Fluid Cursor Styles - Hochoptimiert */
+html.fluid-cursor,
+html.fluid-cursor * {
+  cursor: none !important;
+}
+
+/* Fluid Cursor Ring - Hauptelement */
+.fluid-cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate3d(0, 0, 0);
+  transform-origin: center;
+  will-change: transform, width, height, opacity, background;
+  mix-blend-mode: difference;
+  filter: blur(5px);
+  background: radial-gradient(
+    circle at center,
+    rgba(103, 232, 249, 0.85) 0%,
+    rgba(59, 130, 246, 0.65) 40%,
+    rgba(139, 92, 246, 0.45) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  box-shadow: 0 0 15px rgba(103, 232, 249, 0.5), 
+              inset 0 0 10px rgba(139, 92, 246, 0.3);
+  transition: width 0.15s ease-out, height 0.15s ease-out, background 0.15s ease-out;
+}
+
+/* Nachfolgende Punkte mit Versatz für flüssigeren Look */
+.fluid-cursor-ring::before,
+.fluid-cursor-ring::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: inherit;
+  transform: translate(-50%, -50%) scale(0.65);
+  opacity: 0.5;
+  z-index: -1;
+  filter: blur(7px);
+  transition: all 0.2s ease-out;
+}
+
+.fluid-cursor-ring::after {
+  transform: translate(-50%, -50%) scale(0.35);
+  opacity: 0.3;
+  filter: blur(9px);
+}
+
+/* Innerster Punkt - scharf und klar */
+.fluid-cursor-dot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, width, height, background;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+  transition: width 0.1s ease-out, height 0.1s ease-out, background 0.1s ease-out;
+}
+
+/* Hover-Zustand - flüssig expandieren */
+.fluid-cursor-ring.is-hover {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(
+    circle at center,
+    rgba(56, 189, 248, 0.9) 0%,
+    rgba(37, 99, 235, 0.7) 40%,
+    rgba(99, 102, 241, 0.5) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  filter: blur(6px);
+}
+
+.fluid-cursor-ring.is-hover::before {
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+.fluid-cursor-ring.is-hover::after {
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+.fluid-cursor-dot.is-hover {
+  width: 8px;
+  height: 8px;
+  background: #38bdf8;
+}
+
+/* Klick-Zustand - flüssig komprimieren mit Farbanpassung */
+.fluid-cursor-ring.is-click {
+  width: 25px;
+  height: 25px;
+  background: radial-gradient(
+    circle at center,
+    rgba(244, 114, 182, 0.95) 0%,
+    rgba(236, 72, 153, 0.8) 30%,
+    rgba(217, 70, 239, 0.6) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  filter: blur(4px);
+}
+
+.fluid-cursor-ring.is-click::before {
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0.7;
+}
+
+.fluid-cursor-ring.is-click::after {
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0.4;
+}
+
+.fluid-cursor-dot.is-click {
+  width: 10px;
+  height: 10px;
+  background: #ec4899;
+}
+
+/* Anpassung für hellen Modus */
+@media (prefers-color-scheme: light) {
+  .fluid-cursor-ring {
+    mix-blend-mode: multiply;
+    background: radial-gradient(
+      circle at center,
+      rgba(12, 74, 110, 0.6) 0%,
+      rgba(8, 47, 73, 0.45) 40%,
+      rgba(7, 31, 54, 0.3) 70%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  
+  .fluid-cursor-dot {
+    background: #0c4a6e;
+    box-shadow: 0 0 8px rgba(8, 47, 73, 0.7);
+  }
+  
+  .fluid-cursor-ring.is-hover {
+    background: radial-gradient(
+      circle at center,
+      rgba(3, 105, 161, 0.7) 0%,
+      rgba(2, 132, 199, 0.55) 40%,
+      rgba(14, 165, 233, 0.4) 70%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  
+  .fluid-cursor-dot.is-hover {
+    background: #0369a1;
+  }
+  
+  .fluid-cursor-ring.is-click {
+    background: radial-gradient(
+      circle at center,
+      rgba(190, 18, 60, 0.7) 0%,
+      rgba(159, 18, 57, 0.55) 40%,
+      rgba(136, 19, 55, 0.4) 70%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  
+  .fluid-cursor-dot.is-click {
+    background: #be123c;
+  }
+}
+
+/* Metaball Cursor - Hochoptimiert für Leistung */
+html.metaball-cursor,
+html.metaball-cursor * {
+  cursor: none !important;
+}
+
+/* GPU-optimierter Container */
+.meta-cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+/* Performance-optimierter Metaball Blob - minimaler Stil */
+.meta-blob {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  background: rgba(59, 130, 246, 0.7);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  transition: 
+    width 0.12s cubic-bezier(0.25, 0.1, 0.25, 1), 
+    height 0.12s cubic-bezier(0.25, 0.1, 0.25, 1), 
+    background 0.12s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.12s cubic-bezier(0.25, 0.1, 0.25, 1);
+  mix-blend-mode: screen;
+}
+
+/* Optimierte individuelle Blobs */
+.blob-0 {
+  background: rgba(59, 130, 246, 0.8);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+  width: 32px;
+  height: 32px;
+}
+
+.blob-1 {
+  background: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+  width: 27px;
+  height: 27px;
+  filter: blur(1px);
+  /* Schnellere Reaktion für nachfolgende Blobs */
+  transition-duration: 0.1s;
+}
+
+.blob-2 {
+  background: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+  width: 22px;
+  height: 22px;
+  filter: blur(1px);
+  /* Schnellere Reaktion für nachfolgende Blobs */
+  transition-duration: 0.08s;
+}
+
+.blob-3 {
+  background: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 6px rgba(168, 85, 247, 0.2);
+  width: 18px;
+  height: 18px;
+  filter: blur(1.5px);
+  /* Schnellere Reaktion für nachfolgende Blobs */
+  transition-duration: 0.06s;
+}
+
+.blob-4 {
+  background: rgba(192, 132, 252, 0.4);
+  box-shadow: 0 0 5px rgba(192, 132, 252, 0.15);
+  width: 15px;
+  height: 15px;
+  filter: blur(1.5px);
+  /* Schnellere Reaktion für nachfolgende Blobs */
+  transition-duration: 0.04s;
+}
+
+/* Schnellere Hover-Zustände - optimierte Exit-Transition */
+.meta-blob.is-hover {
+  width: 44px;
+  height: 44px;
+  background: rgba(14, 165, 233, 0.8);
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+  /* Schnelleres Hineingehen, aber noch schnelleres Verlassen */
+  transition: 
+    width 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    height 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    background 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.meta-blob:not(.is-hover) {
+  /* Extra schneller Exit vom Hover-Zustand */
+  transition: 
+    width 0.08s cubic-bezier(0.25, 0.1, 0.25, 1), 
+    height 0.08s cubic-bezier(0.25, 0.1, 0.25, 1), 
+    background 0.08s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.08s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.blob-0.is-hover {
+  width: 40px;
+  height: 40px;
+  background: rgba(6, 182, 212, 0.9);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+}
+
+.blob-1.is-hover {
+  width: 35px;
+  height: 35px;
+  background: rgba(8, 145, 178, 0.8);
+  box-shadow: 0 0 12px rgba(8, 145, 178, 0.5);
+}
+
+.blob-2.is-hover {
+  width: 30px;
+  height: 30px;
+  background: rgba(2, 132, 199, 0.7);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
+}
+
+.blob-3.is-hover {
+  width: 25px;
+  height: 25px;
+  background: rgba(3, 105, 161, 0.6);
+  box-shadow: 0 0 8px rgba(3, 105, 161, 0.3);
+}
+
+.blob-4.is-hover {
+  width: 20px;
+  height: 20px;
+  background: rgba(7, 89, 133, 0.5);
+  box-shadow: 0 0 6px rgba(7, 89, 133, 0.2);
+}
+
+/* Schnellere Klick-Zustände */
+.meta-blob.is-click {
+  width: 28px;
+  height: 28px;
+  background: rgba(244, 63, 94, 0.9);
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.6);
+  transition: all 0.08s ease;
+}
+
+.blob-0.is-click {
+  width: 26px;
+  height: 26px;
+  background: rgba(251, 113, 133, 0.9);
+  box-shadow: 0 0 12px rgba(251, 113, 133, 0.6);
+}
+
+.blob-1.is-click {
+  width: 24px;
+  height: 24px;
+  background: rgba(244, 63, 94, 0.8);
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+}
+
+.blob-2.is-click {
+  width: 20px;
+  height: 20px;
+  background: rgba(225, 29, 72, 0.7);
+  box-shadow: 0 0 8px rgba(225, 29, 72, 0.4);
+}
+
+.blob-3.is-click {
+  width: 16px;
+  height: 16px;
+  background: rgba(190, 18, 60, 0.6);
+  box-shadow: 0 0 6px rgba(190, 18, 60, 0.3);
+}
+
+.blob-4.is-click {
+  width: 12px;
+  height: 12px;
+  background: rgba(159, 18, 57, 0.5);
+  box-shadow: 0 0 5px rgba(159, 18, 57, 0.2);
+}
+
+/* Anpassung für hellen Modus */
+@media (prefers-color-scheme: light) {
+  .meta-blob {
+    mix-blend-mode: multiply;
+    background: rgba(2, 132, 199, 0.6);
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+  }
+  
+  .meta-blob.is-hover {
+    background: rgba(2, 132, 199, 0.7);
+    box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+  }
+  
+  .meta-blob.is-click {
+    background: rgba(220, 38, 38, 0.7);
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+  }
+}
