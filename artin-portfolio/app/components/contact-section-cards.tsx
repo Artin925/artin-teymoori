@@ -16,7 +16,7 @@ export default function ContactSectionCards() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   
   // Initialize EmailJS
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function ContactSectionCards() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError("");
+    setErrorMessage("");
     
     try {
       const emailjsModule = await import('@emailjs/browser');
@@ -75,7 +75,7 @@ export default function ContactSectionCards() {
     } catch (error) {
       console.error('Failed to send email:', error);
       setIsSubmitting(false);
-      setError("Es gab ein Problem beim Senden der Nachricht. Bitte versuche es später erneut.");
+      setErrorMessage("Es gab ein Problem beim Senden der Nachricht. Bitte versuche es später erneut.");
     }
   };
 
@@ -149,6 +149,11 @@ export default function ContactSectionCards() {
               ) : (
                 <form ref={formRef} onSubmit={handleSubmit} className="mt-4">
                   <style>{emailInputStyle}</style>
+                  {errorMessage && (
+                    <div className="mb-4 p-3 bg-red-500 bg-opacity-20 text-white rounded-lg">
+                      <p>{errorMessage}</p>
+                    </div>
+                  )}
                   <div className="mb-4">
                     <div className="relative">
                       <input
